@@ -28,6 +28,7 @@ local ok_bt = widget.newButton(
         overFile = "ok_bt.png",
         --label = "bt_reload",
         onEvent = function ( )
+        --if it is true then it calls the func unlock of parent while hiding
           reload=true
           composer.hideOverlay( "fade", 400 )   
 
@@ -40,6 +41,8 @@ ok_bt.y = display.contentCenterY+55
   sceneGroup:insert(ok_bt)
 
   end
+
+  
 
 function scene:hide( event )
     local sceneGroup = self.view

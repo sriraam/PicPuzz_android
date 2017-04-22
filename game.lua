@@ -10,7 +10,7 @@ local widget = require( "widget" )
 
 local fact_table={}
 local json = require( "json" )
-
+local rand_fact = math.random(2,4);
 local timetable = {}
 
 local filePath_stars = system.pathForFile( "pp_rewards.json", system.DocumentsDirectory )
@@ -47,7 +47,12 @@ local init_secondsleft
 local mainGroup 
 
 local imgdisplay ={}
+local complete_delay=false;
 
+local function completed_func()
+--composer.showOverlay( "completed", options )
+complete_delay=true;
+end
 
 
 local sheetOptions =
@@ -57,50 +62,50 @@ local sheetOptions =
         {   -- 1) asteroid 1
             x = 0,
             y = 0,
-            width = 100,
-            height = 100
+            width = 133,
+            height = 133
         },
         {   -- 2) asteroid 2
-            x = 100,
+            x = 133,
             y = 0,
-            width = 100,
-            height = 100
+            width = 133,
+            height = 133
         },
         {   -- 3) asteroid 3
-            x = 200,
+            x = 266,
             y = 0,
-            width = 100,
-            height = 100
+            width = 133,
+            height = 133
         },
         {   -- 4) ship
             x = 0,
-            y = 100,
-            width = 100,
-            height = 100
+            y = 133,
+            width = 133,
+            height = 133
         },
         {   -- 5) laser
-            x = 100,
-            y = 100,
-            width = 100,
-            height = 100
+            x = 133,
+            y = 133,
+            width = 133,
+            height = 133
         },
         {   -- 6) laser
-            x = 200,
-            y = 100,
-            width = 100,
-            height = 100
+            x = 266,
+            y = 133,
+            width = 133,
+            height = 133
         },
         {   -- 7) laser
             x = 0,
-            y = 200,
-            width = 100,
-            height = 100
+            y = 266,
+            width = 133,
+            height = 133
         },
         {   -- 8) laser
-            x = 100,
-            y = 200,
-            width = 100,
-            height = 100
+            x = 133,
+            y = 266,
+            width = 133,
+            height = 133
         },
     }
 }
@@ -611,6 +616,7 @@ if(secondsLeft==1)then
 
 end
 
+
 if(j==8)then
   -- print( "You won" )
  
@@ -624,13 +630,19 @@ if(j==8)then
   savetime()
   savelevel()
   gameState.time=600-secondsLeft
-     composer.showOverlay( "completed", options )
+    
+timer.performWithDelay( 1000, completed_func)
 
+if(complete_delay)then
+ composer.showOverlay( "completed", options )
+end
  -- livesText = display.newText(textgroup,"Great YOU HAVE FINISHED THE PUZZ ", 200, 80, native.systemFont, 36 )
   --composer.gotoScene("levels")
   
  end
 end
+
+
 
 
 
@@ -676,7 +688,7 @@ if(sec_over==true)then
  countDownTimer = timer.performWithDelay( 1000, updateTime, secondsLeft )
  sec_over=false
  end
-
+rand_fact=math.random(2,4)
 end
 
 function showpic()
@@ -915,8 +927,8 @@ local file_fact= io.open( filepath_facts ,"r" )
 if(file_fact)then
 local contents_f = file_fact:read( "*a" )
 fact_table=json.decode( contents_f )
-local fact_head =display.newText( sceneGroup, fact_table[2][1], display.contentCenterX+50, display.contentCenterY-250, "CarterOne2.ttf",20 )
-local fact_text= display.newText( sceneGroup, fact_table[2][2], display.contentCenterX+10, display.contentCenterY+266 , display.contentWidth-10, 50,"CarterOne2.ttf",12 )
+local fact_head =display.newText( sceneGroup, fact_table[level][1], display.contentCenterX+75, display.contentCenterY-250, "CarterOne2.ttf",20 )
+local fact_text= display.newText( sceneGroup, fact_table[level][rand_fact], display.contentCenterX+7, display.contentCenterY+262 , display.contentWidth-30, 50,"CarterOne2.ttf",12.5 )
 end
 
 

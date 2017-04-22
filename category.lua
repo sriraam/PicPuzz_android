@@ -85,7 +85,7 @@ function  count_stars( )
    -- print("reward_table[][]".." i :"..i.." j :"..j.." value "..reward_table[i][j])
      if(reward_table[i][j]~=0)then
      count = count+reward_table[i][j]
-       else
+       
        end
       end
     end
@@ -270,7 +270,7 @@ local button4 = widget.newButton(
         
         onRelease=function ()
 
-gameState.category = 3
+gameState.category = 4
 
 gotoGame()
 end
@@ -294,7 +294,7 @@ local button5 = widget.newButton(
         
         onRelease=function ()
 
-gameState.category = 3
+gameState.category = 5
 
 gotoGame()
 end

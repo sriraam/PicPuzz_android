@@ -15,6 +15,8 @@ if(gameState.dialogbox=="quit")then
 bg_name="quit_box_glow.png"
 elseif(gameState.dialogbox=="reload")then
 bg_name="restart_box.png"
+--elseif(gameState.dialogbox=="timeover")then
+--
 end
 local background = display.newImage( sceneGroup,bg_name)
 background:scale( 0.75, 0.75 )
