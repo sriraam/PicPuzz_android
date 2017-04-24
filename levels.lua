@@ -58,15 +58,15 @@ local function loadlevels()
     if ( level_table == nil or #level_table == 0 ) then
 --first pos hold the remaining seconds for the whole categoty
 print("File is loaded")
-        level_table = {{1,0,0,0,0,0,0,0,0},
+        level_table = {{1,1,1,0,0,0,0,0,0},
                        {1,1,1,0,0,0,0,0,0},
-                       {1,0,0,0,0,0,0,0,0},
-                       {1,0,0,0,0,0,0,0,0},
-                       {1,0,0,0,0,0,0,0,0},
-                       {1,0,0,0,0,0,0,0,0},
-                       {1,0,0,0,0,0,0,0,0},
-                       {1,0,0,0,0,0,0,0,0},
-                       {1,0,0,0,0,0,0,0,0},
+                       {1,1,1,0,0,0,0,0,0},
+                       {1,1,1,0,0,0,0,0,0},
+                       {1,1,1,0,0,0,0,0,0},
+                       {1,1,1,0,0,0,0,0,0},
+                       {1,1,1,0,0,0,0,0,0},
+                       {1,1,1,0,0,0,0,0,0},
+                       {1,1,1,0,0,0,0,0,0},
                   }
     end
    -- print("categoty :"category)
@@ -142,9 +142,7 @@ end
     composer.removeScene( "game" )
     composer.gotoScene( "game" ,{effect = "zoomOutInFade",time = 250})
     end
-    return true
-
-    
+    return true 
 end
 
 function  count_stars( )
@@ -187,8 +185,6 @@ savelevel()
 --recheck the images table and pos here
 --level_arrangement()
 --star_gen()
-
-
 end
 
 local function quit()
@@ -202,7 +198,7 @@ return obj
 end
 
 local function level_lock_image()
-local obj = display.newImageRect(levelGroup,"level_lock_2.png",85,101)
+local obj = display.newImageRect(levelGroup,"level_lock.png",85,101)
 return obj
 end
 
@@ -215,6 +211,7 @@ local function loadrewards()
         io.close( file )
         reward_table = json.decode( contents )
         print("reward"..contents)
+        print(reward_table[2][2])
     end
 --print("reward"..contents)
     if ( reward_table == nil or #reward_table == 0 ) then
@@ -290,7 +287,8 @@ if(level_table[category][(3*i)-(3-j)]==1)then
      level=level_lock_image()
      table.insert(level_access,level)
    --  print(level_access[(3*i)-(3-j)])
-     level_access[(3*i)-(3-j)]:addEventListener("touch",unlock_level)--add levels in level_lock table
+   --$$$$$$$ cmmented below line to avoid unlock level feature
+  --   level_access[(3*i)-(3-j)]:addEventListener("touch",unlock_level)--add levels in level_lock table
 
      --since we may not use this ,it simply visible no function
    -- table.insert(level_access,level)
@@ -403,9 +401,6 @@ level_arrangement()
 --create a new scene instead of overlay
 --so automatically refreshes the level 
 --but how to pass values.?
-
-
-
 
 --local cat1=display.
 

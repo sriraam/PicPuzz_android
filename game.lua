@@ -21,7 +21,7 @@ local filePath_levels = system.pathForFile( "pp_levelss.json", system.DocumentsD
 
 local level_table={}
 local continue=false
-
+local exec_once=false
 --local usedseconds
 local fini_triggered=true
 local show_img
@@ -289,19 +289,28 @@ end
 
 local function savelevel()
 
-
+if(exec_once==false)then
     local file = io.open( filePath_levels, "w" )
-    
-level_table[category][level+1]=1
+    count_lv_status=0
+for k=0,8 do
+if(level_table[category][k]==1)then
+ count_lv_status = count_lv_status+1
+ print( "Level status "..k.." is " )
+ print( level_table[category][k] )
+end
+
+end
+
+print( "Level unlocked is "..count_lv_status+1 )
+level_table[category][count_lv_status+1]=1
+--level_table[category][level+1]=1
 --print(level+1)
     if file then
         file:write( json.encode( level_table ) )
         io.close( file )
     end
   --  print( "contents" )
-    for i=1,9 do
- --  print(level_table[category][i] )
-end
+   end
 end
 
 local function updateTime()
@@ -340,7 +349,7 @@ local temp1=imgpos[clickpos]
           --ship.y=ypos[freepos]
           freepos=clickpos
           clickpos=0
-          print("freepos "..freepos)
+       --   print("freepos "..freepos)
 
 
 end
@@ -383,8 +392,8 @@ function move2tile_left()
           imgpos[clickpos]=0
           freepos=clickpos
           clickpos=0
-         print("freepos "..freepos)
-         print( imgpos[clickpos+1] )  
+       --  print("freepos "..freepos)
+       --  print( imgpos[clickpos+1] )  
         
 end
 function move2tileright()
@@ -399,8 +408,8 @@ function move2tileright()
           imgpos[clickpos]=0
           freepos=clickpos
           clickpos=0
-         print("freepos "..freepos)
-         print( imgpos[clickpos+1] )  
+       --  print("freepos "..freepos)
+       --  print( imgpos[clickpos+1] )  
         
 end
 
@@ -424,18 +433,18 @@ local function dragShip( event )
         for i=1,3 do
         	if(click_tile_posx==xpos_lim[i]) then
                clickpos_x=i
-                print( "cliclx"..clickpos_x )
+            --    print( "cliclx"..clickpos_x )
 
            end
            if(click_tile_posy==ypos_lim[i]) then
                clickpos_y=i
-               print( "clicly"..clickpos_y )
+              -- print( "clicly"..clickpos_y )
            end
        end
        --converting 1,2,3(x) and 1,2,3(y) parts into actual 1 to 9 number
        clickpos=(3*clickpos_y)-(3-clickpos_x)
        --clickpos = clickpos - (3-cliclkpos_y)
-print( "clickpos"..clickpos )
+--print( "clickpos"..clickpos )
 
 
 
@@ -555,20 +564,20 @@ end
      table.insert( imgpos, 8, 1)
 
      table.insert( imgpos, 9, 0)
-     print( "imagepos is"..imgpos[9] )
+   --  print( "imagepos is"..imgpos[9] )
 
 imgdisplay[1].x = xpos[8]
 
 imgdisplay[1].y = ypos[8]
 --imgdisplay[1].myName="tile"
-print( imgdisplay[i].x )
+--print( imgdisplay[i].x )
 freepos=9
 
 end
 
 local function gotoMenu()
            -- print("Entered endGame....but what happened")
-           print("entered endGame")
+           --print("entered endGame")
            --stops the timer
         puztime=false
         composer.gotoScene( "menu")
@@ -593,6 +602,18 @@ local options2 = {
      --   sampleVar = "my sample variable"
     --}
 }
+
+--to unlock the next level afer any won in 1st 3 level
+local function unlock_nextlevel()
+   --for i=0,8 do
+   i=0
+   while(level_table[category][i]==1) do
+print( "level table Lv" )
+print( i.." is "..level_table[category][i] )
+   i=i+1
+   end
+   level_table[category][i]=1
+end
 
 
 local function Update()
@@ -622,6 +643,8 @@ if(j==8)then
  
    -- timer.pause(countDownTimer)
    
+
+
  -- local  function completed( )
      puztime=false
   -- end
@@ -629,11 +652,13 @@ if(j==8)then
 
   savetime()
   savelevel()
+  exec_once=true;
   gameState.time=600-secondsLeft
     
 timer.performWithDelay( 1000, completed_func)
 
 if(complete_delay)then
+ -- unlock_nextlevel()
  composer.showOverlay( "completed", options )
 end
  -- livesText = display.newText(textgroup,"Great YOU HAVE FINISHED THE PUZZ ", 200, 80, native.systemFont, 36 )
@@ -664,11 +689,11 @@ end
 local  ringGroup 
 function scene:reload_overlay()
 --  print(" Reload executed" )
-print("Entered reload overlay")
+--print("Entered reload overlay")
 
  secondsLeft=init_secondsleft
   puztime=true
-  print(secondsLeft)
+ -- print(secondsLeft)
 
   timer.resume( countDownTimer )
   shuffle_tile()

@@ -37,7 +37,7 @@ local options = {
 }
 
 local function gotoGame()
-
+--print( levels )
     composer.removeScene( "levels" )
 	composer.gotoScene( "levels",{effect = "slideLeft",time = 500})
 end
@@ -80,21 +80,24 @@ function  count_stars( )
 
  for  i=3,11 do
     for  j=1,9 do
-            print( "i "..i )
-    print("j "..j)
+   --         print( "i "..i )
+  --  print("j "..j)
    -- print("reward_table[][]".." i :"..i.." j :"..j.." value "..reward_table[i][j])
-     if(reward_table[i][j]~=0)then
+   if(reward_table[i][j]==nil)then
+    print( "HAS A NIL VALUE IN *^ LINE" )
+gotoGame()
+    else if(reward_table[i][j]~=0)then
      count = count+reward_table[i][j]
-       
+       end
        end
       end
     end
-    print( reward_table[1][1] )
+   -- print( reward_table[1][1] )
   reward_table[1][1]=count
    
     totalstars=reward_table[1][1]-reward_table[1][2]
     --gameState.stars=
-        print( "2"..reward_table[1][1] )
+     --   print( "2"..reward_table[1][1] )
 
 end
 --[[
@@ -116,13 +119,15 @@ end
 
 function scene:unlock_overlay()
 
-reward_table[1][2]=reward_table[1][2]+20
+--reward_table[1][2]=reward_table[1][2]+20
+reward_table[1][2]=reward_table[1][2]+1
 reward_table[2][cat_lock]=0
 count_stars()
 scount_text.text=tostring( totalstars)
 save_reward()
-
-
+print( "cat_lock"..cat_lock )
+print( "Unlocked ..0?"..reward_table[2][cat_lock] )
+gotoGame()
 end
 
 local widget = require( "widget" )
@@ -131,18 +136,18 @@ local widget = require( "widget" )
 local function scrollListener( event )
 
     local phase = event.phase
-    if ( phase == "began" ) then print( "Scroll view was touched" )
-    elseif ( phase == "moved" ) then print( "Scroll view was moved" )
-    elseif ( phase == "ended" ) then print( "Scroll view was released" )
-    end
+  --  if ( phase == "began" ) then print( "Scroll view was touched" )
+   -- elseif ( phase == "moved" ) then print( "Scroll view was moved" )
+    --elseif ( phase == "ended" ) then print( "Scroll view was released" )
+   -- end
 
     -- In the event a scroll limit is reached...
     if ( event.limitReached ) then
-        if ( event.direction == "up" ) then print( "Reached bottom limit" )
-        elseif ( event.direction == "down" ) then print( "Reached top limit" )
-        elseif ( event.direction == "left" ) then print( "Reached right limit" )
-        elseif ( event.direction == "right" ) then print( "Reached left limit" )
-        end
+      --  if ( event.direction == "up" ) then print( "Reached bottom limit" )
+       -- elseif ( event.direction == "down" ) then print( "Reached top limit" )
+       -- elseif ( event.direction == "left" ) then print( "Reached right limit" )
+       -- elseif ( event.direction == "right" ) then print( "Reached left limit" )
+    --    end
     end
    return true
 end
@@ -318,7 +323,7 @@ local button6 = widget.newButton(
         
         onRelease=function ()
 
-gameState.category = 3
+gameState.category = 6
 
 gotoGame()
 end
@@ -342,7 +347,7 @@ local button7 = widget.newButton(
         
         onRelease=function ()
 
-gameState.category = 3
+gameState.category = 6
 
 gotoGame()
 end
@@ -398,14 +403,16 @@ local button9 = widget.newButton(
         --label = "Abstract challenge 2",
         
         onRelease=function ()
+             cat_lock=1
+             gameState.category = 7
             if(reward_table[2][1]==0)then
    cat_lock=1
 
-gameState.category = 3
+gameState.category = 7
 
 gotoGame()
 print( totalstars )
-elseif(totalstars>=20)then
+elseif(totalstars>=1)then
 
 --unlock_overlay()
 composer.showOverlay("unlock",options)
@@ -443,13 +450,17 @@ local button10 = widget.newButton(
         --label = "Abstract challenge 2",
        
         onRelease=function ()
+           cat_lock=2
+           gameState.category = 8
+             print( "rew11"..reward_table[1][1] )
+            print(reward_table[2][2] )
             if(reward_table[2][2]==0)then
    cat_lock=2
-gameState.category = 3
+gameState.category = 8
 
 gotoGame()
 print( totalstars )
-elseif(totalstars>=20)then
+elseif(totalstars>=1)then
 
 --unlock_overlay()
 composer.showOverlay("unlock",options)
@@ -499,7 +510,7 @@ star_count.x=display.contentCenterX+90
 star_count.y=display.contentCenterY-262
 
        
-        print( "bott"..reward_table[1][1] )
+     --   print( "bott"..reward_table[1][1] )
       scount_text=display.newText( sceneGroup,tostring(totalstars), star_count.x+15, star_count.y+5 , "CarterOne",15 )
           scount_text:setFillColor( 1,1,1,1)
 
